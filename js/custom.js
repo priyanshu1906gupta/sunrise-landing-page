@@ -2,6 +2,23 @@
     Version: 1.0
 /****************************************** */
 
+(function () {
+  var path = location.pathname || "";
+  var useHashApp = location.port === "4200" || path.indexOf("/site/") === 0;
+  var login = useHashApp ? "/#/authentication/login" : "/app/#/authentication/login";
+  var register = useHashApp ? "/#/authentication/register" : "/app/#/authentication/register";
+  function rewriteAuthLinks() {
+    document.querySelectorAll('a[href*="authentication/login"]').forEach(function (a) {
+      a.setAttribute("href", login);
+    });
+    document.querySelectorAll('a[href*="authentication/register"]').forEach(function (a) {
+      a.setAttribute("href", register);
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", rewriteAuthLinks);
+  else rewriteAuthLinks();
+})();
+
 (function($) {
     "use strict";
 
